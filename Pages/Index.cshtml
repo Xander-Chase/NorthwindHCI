@@ -1,0 +1,42 @@
+﻿@page
+@using NorthwindHCI.Models.NW
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    var categories = ViewData["Categories"] as List<Category>;
+}
+
+<div class="text-center">
+    <!-- The form to add new categories -->
+    <form method="post">
+        <input type="text" name="CategoryName" />
+        <button type="submit">Add Category</button>
+    </form>    
+
+    <!-- List of categories as clickable buttons -->
+    @foreach (var item in categories!)
+    {
+        <button type="button" class="category-btn" onclick="toggleCategoryDetails(@item.CategoryId)">
+            @item.CategoryName
+        </button>
+        
+        <!-- Div for displaying category details -->
+        <div id="category-details-@item.CategoryId" class="category-details" style="display: none;">
+            <p><strong>Category ID:</strong> @item.CategoryId</p>
+            <p><strong>Category Name:</strong> @item.CategoryName</p>
+            <p><strong>Description:</strong> @item.Description</p>
+        </div>
+    }
+</div>
+
+<!-- JavaScript to toggle the visibility of category details -->
+<script>
+    function toggleCategoryDetails(categoryId) {
+        var detailsDiv = document.getElementById('category-details-' + categoryId);
+        if (detailsDiv.style.display === 'none' || detailsDiv.style.display === '') {
+            detailsDiv.style.display = 'block';
+        } else {
+            detailsDiv.style.display = 'none';
+        }
+    }
+</script>
